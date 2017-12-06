@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="lib/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="lib" path="lib/poi-ooxml-schemas-3.17.jar"/>
 	<classpathentry kind="lib" path="lib/poi-scratchpad-3.17.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace/jfreechart-1.0.19.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -26,14 +26,15 @@ public class Iterasi {
 		double[][] hasil= new double[data.length][dc.length];
 		
 		for(int i=0;i<data.length;i++){
-			for(int x=1;x<data[0].length;x++){
+			for(int x=0;x<dc.length;x++){
 				
-				hasil[i][x-1] =0.0;
-				for(int y=1;y<dc.length+1;y++){
-					hasil[i][x-1] += (Math.pow((Double.parseDouble(data[i][y]) - Double.parseDouble(dc[(x-1)%dc.length][y])),2));
+				hasil[i][x] =0.0;
+				for(int y=1;y<dc[0].length;y++){
+					hasil[i][x] += (Math.pow((Double.parseDouble(data[i][y]) - 
+							Double.parseDouble(dc[(x)%dc.length][y])),2));
 					//System.out.println("(("+data[i][y]+"-"+dc[(x-1)%dc.length][y]+")^2) +");
 				}
-				hasil[i][x-1] = Math.sqrt(hasil[i][x-1]);
+				hasil[i][x] = Math.sqrt(hasil[i][x]);
 				//System.out.println("hasil ke"+i+","+Integer.toString(x-1)+":" + hasil[i][x-1]);
 			}
 		}
@@ -147,16 +148,23 @@ public class Iterasi {
 		int hasil=0;
 		for(int i=0;i<a.length;i++){
 			for(int y=1;y<a[0].length;y++){
-				if(a[i][y].equals(b[i][y])){
+				if(a[i][y].equals(String.format("%.3f",Double.parseDouble(b[i][y])))){
 					hasil++;
-					System.out.println(a[i][y]+" dgn "+b[i][y]);
+					System.out.println("---");
+					System.out.println(a[i][y]+" (ya)dgn "+String.format("%.3f",Double.parseDouble(b[i][y])));
+					System.out.println("---");
+				}else{
+					System.out.println(a[i][y]+" (t)dgn "+String.format("%.3f",Double.parseDouble(b[i][y])));
 				}
+				
 			}
+			System.out.println("######################################");
 		}
-		if(hasil==0){
-			return true;
-		}else{
+		System.out.println("hasil: "+hasil+" jumlah data: "+a.length*(a[0].length-1));
+		if(hasil==a.length*(a[0].length-1)){
 			return false;
+		}else{
+			return true;
 		}
 	}
 	

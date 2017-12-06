@@ -8,6 +8,9 @@ import java.awt.EventQueue;
 
 
 
+
+
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -32,7 +35,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.EventObject;
+import java.util.Random;
 
 import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
@@ -48,6 +54,7 @@ public class SetPusat extends JFrame {
 	Controller.SetPusat main = new Controller.SetPusat();
 	String[] atribut;
 	String[][] data;
+	String[][] dc;
 
 	/**
 	 * Launch the application.
@@ -72,7 +79,7 @@ public class SetPusat extends JFrame {
 	public SetPusat(String[] atribut, String[][] data) {
 		setAtt(atribut); setData(data);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 583, 388);
+		setBounds(100, 100, 583, 439);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -91,14 +98,31 @@ public class SetPusat extends JFrame {
 		JButton btnStart = new JButton("Start Clustering");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String[][] dc = new String[tableInitial.getRowCount()][tableInitial.getColumnCount()];
+				dc = new String[tableInitial.getRowCount()][tableInitial.getColumnCount()];
 				for(int i=0;i<tableInitial.getRowCount();i++){
 					for(int x=0;x<tableInitial.getColumnCount();x++){
 						dc[i][x] = (String) tableInitial.getValueAt(i, x);
 					}
 				}
+				
 				Iterasi it = new Iterasi(getAtt(), getData(), dc);
 				it.setVisible(true);
+			}
+		});
+		
+		JButton btnRandom = new JButton("Random Cluster Center");
+		btnRandom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				int[] id = main.getIdRand(getData(), tableInitial);
+				
+				for(int i=0;i<tableInitial.getRowCount();i++){
+					for(int x=1;x<tableInitial.getColumnCount();x++){
+						tableInitial.setValueAt(dataTable.getValueAt(id[i], x), 
+								i, x);
+					}
+				}
+				//tableInitial.setValueAt(arg0, arg1, arg2);
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -106,11 +130,15 @@ public class SetPusat extends JFrame {
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 287, Short.MAX_VALUE)
-					.addComponent(btnStart)
-					.addGap(22))
+					.addPreferredGap(ComponentPlacement.RELATED, 309, Short.MAX_VALUE)
+					.addComponent(btnStart))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+						.addComponent(btnRandom))
+					.addContainerGap())
 				.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -118,10 +146,12 @@ public class SetPusat extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 49, Short.MAX_VALUE))
-					.addGap(6)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
+					.addComponent(btnRandom, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
 		);
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
@@ -160,14 +190,12 @@ public class SetPusat extends JFrame {
 			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//main.setInitial();
-				for(int i=1;i<=3;i++){
+				for(int i=1;i<tableInitial.getColumnCount();i++){
 					tableInitial.setValueAt(
 							dataTable.getValueAt(dataTable.getSelectedRow(), i),
 							tableInitial.getSelectedRow(), 
 							i);
 				}
-				tableInitial.setValueAt(dataTable.getValueAt(dataTable.getSelectedRow(), 1),tableInitial.getSelectedRow(), 1);				
 			}
 		});
 		

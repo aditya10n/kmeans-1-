@@ -132,12 +132,13 @@ public class SetData {
 	    String[][] hasil;
 		if(withoutAtt.isSelected()){
 			hasil=new String[selectedCol.length+1][selectedRow.length];
-			for(int i=0; i<selectedCol.length+1;i++){
-				for(int x=0; x<selectedRow.length;x++){
+			for(int i=0; i<hasil.length;i++){
+				for(int x=0; x<hasil[0].length;x++){
 					if(x==0){
 						hasil[i][x] = "Y" + Integer.toString(x+1);
 					}else{
-						hasil[i][x+1]= data[i][x];
+						System.out.println(selectedCol[i]+","+selectedRow[x]);
+						hasil[i][x]= data[selectedCol[i]][selectedRow[x]];
 					}
 				}
 			}

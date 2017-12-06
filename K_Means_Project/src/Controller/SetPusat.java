@@ -1,6 +1,13 @@
 package Controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 import javax.swing.JComboBox;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class SetPusat {
@@ -43,6 +50,38 @@ public class SetPusat {
 		
 		dm.setDataVector(data0, atribut1);
 		return dm;
+	}
+	
+	public int[] getIdRand(String data[][], JTable tableInitial){
+		Random r = new Random();
+		int[] id = new int[tableInitial.getRowCount()];
+		
+		/*int i=0;
+		do{
+			id[i] = r.nextInt(id.length);
+			if(!checkSameD(id[i], id)){
+				i++;
+			}
+		}while(i<id.length);*/
+		 List<Integer> list = new ArrayList<Integer>(data.length);
+		    for (int i=0;i<data.length;i++)
+		        list.add(i);
+		    Collections.shuffle(list);
+
+		    for (int i = 0; i < id.length; i++)
+		        id[i] = list.get(i);
+		    Arrays.sort(id);
+		return id;
+	}
+	
+	public boolean checkSameD(int id, int[] arr){
+		
+		for(int i=0;i<arr.length;i++){
+			if(id==arr[i]){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

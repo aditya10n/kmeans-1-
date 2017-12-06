@@ -122,7 +122,7 @@ public class Iterasi extends JFrame {
 		btnN = new JButton("Next -->");
 		btnN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(btnN.getText().equals("Next -->")){
+				//if(btnN.getText().equals("Next -->")){
 					double[][] hasil = main.hitungJarakP(getData(), getDc());
 					String[][] keldata = main.kelompokData(hasil);
 					String[][] dcB = main.pusatBaru(keldata,getData());
@@ -135,9 +135,9 @@ public class Iterasi extends JFrame {
 						JOptionPane.showMessageDialog(null, "berhenti pada iterasi ke-"+numIt.getText());
 						btnN.setText("Result");
 					}
-				}else{
+				//}else{
 					
-				}
+				//}
 			}
 		});
 		
