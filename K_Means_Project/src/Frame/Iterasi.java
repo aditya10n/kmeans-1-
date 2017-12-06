@@ -28,6 +28,7 @@ public class Iterasi extends JFrame {
 	String[][]data;
 	String[][]dc;
 	JLabel numIt;
+	JButton btnN;
 
 	/**
 	 * Launch the application.
@@ -66,7 +67,7 @@ public class Iterasi extends JFrame {
 		
 		JLabel lblIteration = new JLabel("Iteration");
 		
-		numIt = new JLabel("0");
+		numIt = new JLabel("1");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -118,39 +119,42 @@ public class Iterasi extends JFrame {
 		scrollPane.setViewportView(tableC);
 		tableC.setModel(main.clusterT(att, dc));
 		
-		JButton btnN = new JButton("Next -->");
+		btnN = new JButton("Next -->");
 		btnN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				double[][] hasil = main.hitungJarakP(getData(), getDc());
-				String[][] keldata = main.kelompokData(hasil);
-				String[][] dcB = main.pusatBaru(keldata,getData());
-				if(main.checkStop(getDc(), dcB)){
-					tableC.setModel(main.clusterT(att, dcB));
-					tableIt.setModel(main.dataIt(att, getData(), dcB, hasil, keldata));
-					setDc(dcB);
-					numIt.setText(Integer.toString(Integer.parseInt(numIt.getText())+1));
+				if(btnN.getText().equals("Next -->")){
+					double[][] hasil = main.hitungJarakP(getData(), getDc());
+					String[][] keldata = main.kelompokData(hasil);
+					String[][] dcB = main.pusatBaru(keldata,getData());
+					if(main.checkStop(getDc(), dcB)){
+						tableC.setModel(main.clusterT(att, dcB));
+						tableIt.setModel(main.dataIt(att, getData(), dcB, hasil, keldata));
+						setDc(dcB);
+						numIt.setText(Integer.toString(Integer.parseInt(numIt.getText())+1));
+					}else{
+						JOptionPane.showMessageDialog(null, "berhenti pada iterasi ke-"+numIt.getText());
+						btnN.setText("Result");
+					}
 				}else{
-					JOptionPane.showMessageDialog(null, "berhenti pada iterasi ke-"+numIt.getText());
+					
 				}
-				
-				
 			}
 		});
 		
 		JButton buttonP = new JButton("<-- Prev");
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(buttonP)
-					.addPreferredGap(ComponentPlacement.RELATED, 429, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 425, Short.MAX_VALUE)
 					.addComponent(btnN)
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnN)
@@ -178,7 +182,4 @@ public class Iterasi extends JFrame {
 	public String[][] getDc(){
 		return this.dc;
 	}
-	
-	
-
 }

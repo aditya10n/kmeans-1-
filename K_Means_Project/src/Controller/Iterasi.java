@@ -121,12 +121,12 @@ public class Iterasi {
 				for(int y=0; y<keldata.length;y++){
 					if(keldata[y][i].equals("1")){
 						hasilSum += Double.parseDouble(data[y][x]);
-						System.out.println(data[y][x]+"jumlah"+jumlah);
+						//System.out.println(data[y][x]+"jumlah"+jumlah);
 						jumlah++;
 					}
 				}
 				hasilP[i][x] = Double.toString(hasilSum / jumlah);
-				System.out.println(hasilP[i][x]+"("+i+","+x+")");
+				//System.out.println(hasilP[i][x]+"("+i+","+x+")");
 			}
 		}
 		return hasilP;
@@ -144,15 +144,20 @@ public class Iterasi {
 	}*/
 	
 	public boolean checkStop(String[][] a, String[][] b){
-		boolean hasil=false;
+		int hasil=0;
 		for(int i=0;i<a.length;i++){
-			for(int y=0;y<a[0].length;y++){
-				if(!a[i][y].equals(b[i][y])){
-					return true;
+			for(int y=1;y<a[0].length;y++){
+				if(a[i][y].equals(b[i][y])){
+					hasil++;
+					System.out.println(a[i][y]+" dgn "+b[i][y]);
 				}
 			}
 		}
-		return hasil;
+		if(hasil==0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	
