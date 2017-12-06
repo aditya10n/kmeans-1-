@@ -13,6 +13,8 @@ import org.apache.commons.collections4.Put;
 import org.apache.poi.ss.usermodel.Chart;
 import org.apache.poi.xslf.usermodel.PieChartDemo;
 
+import Class.PieChart;
+
 public class Result extends JFrame {
 
 	private JPanel contentPane;
@@ -42,18 +44,11 @@ public class Result extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 424, Short.MAX_VALUE)
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 251, Short.MAX_VALUE)
-		);
-		contentPane.setLayout(gl_contentPane);
+	 contentPane.setLayout(new BorderLayout(0, 0));
 		
-		
+	 PieChart p = new PieChart(80);
+	 contentPane.add(p);
+	 contentPane.add(p);
 		
 	}
 
