@@ -56,13 +56,6 @@ public class SetPusat {
 		Random r = new Random();
 		int[] id = new int[tableInitial.getRowCount()];
 		
-		/*int i=0;
-		do{
-			id[i] = r.nextInt(id.length);
-			if(!checkSameD(id[i], id)){
-				i++;
-			}
-		}while(i<id.length);*/
 		 List<Integer> list = new ArrayList<Integer>(data.length);
 		    for (int i=0;i<data.length;i++)
 		        list.add(i);

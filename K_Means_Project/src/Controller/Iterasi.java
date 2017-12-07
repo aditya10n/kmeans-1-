@@ -1,9 +1,13 @@
 package Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class Iterasi {
+	List<String[][]> listIterasi;
 	
 	public DefaultTableModel clusterT(String[] att, String[][] dc){
 		String[] att1 = new String[att.length];
@@ -17,7 +21,12 @@ public class Iterasi {
 				dc[i][y]=String.format("%.3f",Double.parseDouble(dc[i][y]));
 			}
 		}
-		DefaultTableModel dm = new DefaultTableModel(dc,att1);
+		DefaultTableModel dm = new DefaultTableModel(dc,att1){
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};;
 		
 		return dm;
 	}
@@ -103,7 +112,12 @@ public class Iterasi {
 			}
 		}
 		
-		DefaultTableModel dm = new DefaultTableModel(fulldata,att1);
+		DefaultTableModel dm = new DefaultTableModel(fulldata,att1){
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};;
 		
 		return dm;
 	}
@@ -150,17 +164,12 @@ public class Iterasi {
 			for(int y=1;y<a[0].length;y++){
 				if(a[i][y].equals(String.format("%.3f",Double.parseDouble(b[i][y])))){
 					hasil++;
-					System.out.println("---");
-					System.out.println(a[i][y]+" (ya)dgn "+String.format("%.3f",Double.parseDouble(b[i][y])));
-					System.out.println("---");
 				}else{
 					System.out.println(a[i][y]+" (t)dgn "+String.format("%.3f",Double.parseDouble(b[i][y])));
 				}
 				
 			}
-			System.out.println("######################################");
 		}
-		System.out.println("hasil: "+hasil+" jumlah data: "+a.length*(a[0].length-1));
 		if(hasil==a.length*(a[0].length-1)){
 			return false;
 		}else{
@@ -168,6 +177,20 @@ public class Iterasi {
 		}
 	}
 	
+	public void setSizeIterasi(String[][] dc){
+		listIterasi = new ArrayList<String[][]>(dc.length);
+	}
 	
+	public void simpanIterasi(String[][] dc){
+		listIterasi.add(dc);
+	}
+	
+	public String[][] getIterasiP(int iterasi){
+		return listIterasi.get(iterasi-1);
+	}
+	
+	public String[][] getIterasi(int iterasi){
+		return listIterasi.get(iterasi);
+	}
 
 }

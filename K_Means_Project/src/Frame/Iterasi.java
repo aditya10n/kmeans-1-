@@ -29,6 +29,7 @@ public class Iterasi extends JFrame {
 	String[][]dc;
 	JLabel numIt;
 	JButton btnN;
+	
 
 	/**
 	 * Launch the application.
@@ -122,26 +123,58 @@ public class Iterasi extends JFrame {
 		btnN = new JButton("Next -->");
 		btnN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//if(btnN.getText().equals("Next -->")){
+				if(btnN.getText().equals("Next -->")){
 					double[][] hasil = main.hitungJarakP(getData(), getDc());
 					String[][] keldata = main.kelompokData(hasil);
 					String[][] dcB = main.pusatBaru(keldata,getData());
-					if(main.checkStop(getDc(), dcB)){
+					
+					
+					if(numIt.getText().equals("1")){
 						tableC.setModel(main.clusterT(att, dcB));
 						tableIt.setModel(main.dataIt(att, getData(), dcB, hasil, keldata));
+						main.setSizeIterasi(getDc());
+						main.simpanIterasi(getDc());
 						setDc(dcB);
 						numIt.setText(Integer.toString(Integer.parseInt(numIt.getText())+1));
 					}else{
-						JOptionPane.showMessageDialog(null, "berhenti pada iterasi ke-"+numIt.getText());
-						btnN.setText("Result");
+						if(main.checkStop(getDc(), main.getIterasiP(Integer.parseInt(numIt.getText())-1))){
+							tableC.setModel(main.clusterT(att, dcB));
+							tableIt.setModel(main.dataIt(att, getData(), dcB, hasil, keldata));
+							main.simpanIterasi(getDc());
+							setDc(dcB);
+							numIt.setText(Integer.toString(Integer.parseInt(numIt.getText())+1));
+						}else{
+							JOptionPane.showMessageDialog(null, "berhenti pada iterasi ke-"+numIt.getText());
+							btnN.setText("Result");
+						}
 					}
-				//}else{
-					
-				//}
+				}else{
+					Result r = new Result();
+					r.setThasil(tableIt);
+					r.setKelData(main.kelompokData(main.hitungJarakP(getData(), getDc())));
+					r.setData();
+					r.setVisible(true);
+				}
 			}
 		});
 		
 		JButton buttonP = new JButton("<-- Prev");
+		buttonP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String[][] dataSebelum = main.getIterasi(Integer.parseInt(numIt.getText())-2);
+				
+				double[][] hasil = main.hitungJarakP(getData(), dataSebelum);
+				String[][] keldata = main.kelompokData(hasil);
+				String[][] dcB = main.pusatBaru(keldata,getData());
+				
+				tableC.setModel(main.clusterT(att, dataSebelum));
+				numIt.setText(Integer.toString(Integer.parseInt(numIt.getText())-1));
+				tableIt.setModel(main.dataIt(att, getData(), dataSebelum, hasil, keldata));
+				setDc(dataSebelum);
+				btnN.setText("Next -->");
+				
+			}
+		});
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.TRAILING)
