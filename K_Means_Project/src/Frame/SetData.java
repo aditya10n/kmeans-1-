@@ -1,5 +1,6 @@
 package Frame;
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -87,9 +88,9 @@ public class SetData extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Input File Data", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -153,42 +154,6 @@ public class SetData extends JFrame {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Select Data", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
-		JPanel panel_6 = new JPanel();
-		panel_6.setBorder(new TitledBorder(null, "Data Prieview", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_6, GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
-						.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel_6, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE))
-					.addContainerGap())
-		);
-		panel_6.setLayout(new BorderLayout(0, 0));
-		
-		scrollPane = new JScrollPane();
-		panel_6.add(scrollPane, BorderLayout.CENTER);
-		
-		table = new JTable();
-		table.setColumnSelectionAllowed(true);
-		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		scrollPane.setViewportView(table);
-		
 		
 		
 		JPanel panel_3 = new JPanel();
@@ -218,7 +183,6 @@ public class SetData extends JFrame {
 				String[][] data = main.getSelectedData(table);
 				SetPusat sp = new SetPusat(main.getAtt(withoutAtt, data), main.getData(withoutAtt, data,table));
 				sp.setVisible(true);
-				dispose();
 				
 			}
 		});
@@ -303,6 +267,22 @@ public class SetData extends JFrame {
 		);
 		panel_4.setLayout(gl_panel_4);
 		panel_3.setLayout(new BorderLayout(0, 0));
+		
+		comboBox = new JComboBox();
+		panel_3.add(comboBox);
+		panel_1.setLayout(gl_panel_1);
+		
+		JPanel panel_6 = new JPanel();
+		panel_6.setBorder(new TitledBorder(null, "Data Prieview", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_6.setLayout(new BorderLayout(0, 0));
+		
+		scrollPane = new JScrollPane();
+		panel_6.add(scrollPane, BorderLayout.CENTER);
+		
+		table = new JTable();
+		table.setColumnSelectionAllowed(true);
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		scrollPane.setViewportView(table);
 		table.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -357,11 +337,12 @@ public class SetData extends JFrame {
 				
 			}
 		});
-		
-		comboBox = new JComboBox();
-		panel_3.add(comboBox);
-		panel_1.setLayout(gl_panel_1);
-		contentPane.setLayout(gl_contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.add(panel);
+		panel.setLayout(new BorderLayout(0, 0));
+		panel.add(panel_2, BorderLayout.NORTH);
+		panel.add(panel_1, BorderLayout.WEST);
+		panel.add(panel_6, BorderLayout.CENTER);
 		
 	}
 	
@@ -371,5 +352,10 @@ public class SetData extends JFrame {
 	
 	public String getAlamat(){
 		return alamat.getText();
+	}
+	
+	@Override
+	public Container getContentPane() {
+		return super.getContentPane();
 	}
 }

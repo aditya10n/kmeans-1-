@@ -2,6 +2,7 @@ package Frame;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 
@@ -10,6 +11,10 @@ import java.awt.EventQueue;
 
 
 
+
+
+
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,6 +38,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Collection;
@@ -55,6 +62,9 @@ public class SetPusat extends JFrame {
 	String[] atribut;
 	String[][] data;
 	String[][] dc;
+	JButton btnRandom;
+	JButton btnStart;
+	JPanel panel_2;
 
 	/**
 	 * Launch the application.
@@ -78,11 +88,13 @@ public class SetPusat extends JFrame {
 	 */
 	public SetPusat(String[] atribut, String[][] data) {
 		setAtt(atribut); setData(data);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 583, 439);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Number of Cluster", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -92,10 +104,11 @@ public class SetPusat extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Initial Cluster", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
-		JPanel panel_2 = new JPanel();
+		panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Data", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
-		JButton btnStart = new JButton("Start Clustering");
+		btnStart = new JButton("Start Clustering");
+		btnStart.setEnabled(false);
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dc = new String[tableInitial.getRowCount()][tableInitial.getColumnCount()];
@@ -110,7 +123,8 @@ public class SetPusat extends JFrame {
 			}
 		});
 		
-		JButton btnRandom = new JButton("Random Cluster Center");
+		btnRandom = new JButton("Random Cluster Center");
+		btnRandom.setEnabled(false);
 		btnRandom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -158,9 +172,12 @@ public class SetPusat extends JFrame {
 		scrollPane_1 = new JScrollPane();
 		panel_2.add(scrollPane_1, BorderLayout.CENTER);
 		
+		panel_2.setVisible(false);
+		
 		dataTable = new JTable();
 		dataTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(dataTable);
+		
 		
 		dataTable.addMouseListener(new MouseListener() {
 			
@@ -206,9 +223,8 @@ public class SetPusat extends JFrame {
 		btnSet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				tableInitial.setModel(main.tableInit((Integer)spinner.getValue(),getAtt()));
-				javax.swing.table.TableColumn col = tableInitial.getColumnModel().getColumn(2);
-				col.setCellEditor(new DefaultCellEditor(combo));
-				
+				btnRandom.setEnabled(true);
+				btnStart.setEnabled(true);
 			}
 		});
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
@@ -240,7 +256,38 @@ public class SetPusat extends JFrame {
 		scrollPane.setViewportView(tableInitial);
 		contentPane.setLayout(gl_contentPane);
 		
-		
+		tableInitial.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				panel_2.setVisible(true);
+				
+			}
+		});
 		tableData();
 	}
 	

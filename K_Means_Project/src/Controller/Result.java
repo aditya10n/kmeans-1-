@@ -49,7 +49,12 @@ public class Result {
 				}
 			}
 		}
-		DefaultTableModel dm = new DefaultTableModel(data, header);
+		DefaultTableModel dm = new DefaultTableModel(data, header){
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};;
 		return dm;
 	}
 	
@@ -71,7 +76,12 @@ public class Result {
 		}
 		
 		
-		DefaultTableModel dm = new DefaultTableModel(data, header);
+		DefaultTableModel dm = new DefaultTableModel(data, header){
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};;
 		return dm;
 	}
 	

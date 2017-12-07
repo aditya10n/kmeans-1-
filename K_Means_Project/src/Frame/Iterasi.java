@@ -1,7 +1,9 @@
 package Frame;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -13,8 +15,12 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import Class.MyTableCellRenderer;
+import Class.MyTableCellRenderer2;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -53,11 +59,13 @@ public class Iterasi extends JFrame {
 	public Iterasi(final String[] att, String[][] data, String[][] dc) {
 		setData(data);
 		setDc(dc);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 619, 360);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Cluster", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -111,7 +119,8 @@ public class Iterasi extends JFrame {
 		tableIt.setModel(main.dataIt(att, data, dc, 
 				main.hitungJarakP(data, dc), 
 				main.kelompokData(main.hitungJarakP(data, dc))));
-		
+		MyTableCellRenderer2 mtr = new MyTableCellRenderer2();
+		tableIt.setDefaultRenderer(Object.class,(TableCellRenderer) mtr);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane, BorderLayout.CENTER);
